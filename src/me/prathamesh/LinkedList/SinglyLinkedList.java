@@ -1,9 +1,6 @@
 package me.prathamesh.LinkedList;
 
-import jdk.dynalink.linker.LinkerServices;
-
 import java.io.Serializable;
-import java.time.temporal.ChronoUnit;
 import java.util.NoSuchElementException;
 
 public class SinglyLinkedList<T> implements Serializable{
@@ -259,6 +256,24 @@ public class SinglyLinkedList<T> implements Serializable{
             current = current.next;
         }
         return count;
+    }
+
+    /**
+     * Reverse this list.
+     * The first element will be the last element and similarly the last element will become the head(first element) of this list.
+     */
+    public void reverse() {
+        if (head == null) return;
+        Node<T> current = head;
+        Node<T> prev = null;
+        Node<T> next = null;
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        head = prev;
     }
 
     /**
