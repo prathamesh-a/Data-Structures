@@ -294,4 +294,21 @@ public class SinglyLinkedList<T> implements Serializable{
         str.append("]");
         return str.toString();
     }
+
+    /**
+     * Returns the string representing the singly linked list visual with help of arrows. This gives simplified representation.
+     *
+     * @return simplified string representation of this list
+     */
+    public String toVisualRepresentation() {
+        Node<T> current = head;
+        StringBuilder str = new StringBuilder("[");
+        while (current != null) {
+            str.append(current.data).append(" --> ");
+            current = current.next;
+        }
+        if(head != null) str.append("NULL");
+        str.append("]");
+        return str.toString();
+    }
 }
