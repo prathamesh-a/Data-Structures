@@ -14,7 +14,7 @@ public class DoublyLinkedList<T> {
     private Node<T> tail;
 
     private static class Node<E> {
-        private E data;
+        private final E data;
         private Node<E> next;
         private Node<E> prev;
 
@@ -83,6 +83,46 @@ public class DoublyLinkedList<T> {
     }
 
     /**
+     * Insert the specified element at the beginning of this list.
+     *
+     * @param val value of the node to be inserted
+     * @throws NullPointerException if the value is null
+     */
+    public void insert(T val) {
+        insertLast(val);
+    }
+
+    /**
+     * Insert a new node at a specified index in this doubly linked list.
+     *
+     * @param val value of the node to be inserted
+     * @param position index for inserting new node (starts from 0)
+     *
+     * @throws NullPointerException if the specified value is null
+     * @throws IndexOutOfBoundsException if the specified index is not valid
+     */
+    public void insert(T val, int position) {
+        if (val == null) throw new NullPointerException("value cannot be null");
+        if (position > size || position < 0) throw new IndexOutOfBoundsException("Size = " + size + ", Index = " + position);
+        if (position == 0) insertFirst(val);
+        else if (position == size) insertLast(val);
+        else {
+            Node<T> newNode = new Node<>(val);
+            Node<T> current = head;
+            int index = 0;
+            while (index < position) {
+                current = current.next;
+                index++;
+            }
+            Node<T> prev = current.prev;
+            newNode.prev = prev;
+            prev.next = newNode;
+            newNode.next = current;
+            current.prev = newNode;
+        }
+    }
+
+    /**
      * Return the string representation of this doubly linked list.
      * The string representation consists of a list of the elements enclosed in square brackets ("[]").
      *
@@ -101,6 +141,11 @@ public class DoublyLinkedList<T> {
         return str.toString();
     }
 
+    /**
+     * Returns the string representing the doubly linked list visual with help of arrows. This gives simplified representation.
+     *
+     * @return simplified string representation of this list
+     */
     public String toVisualRepresentation() {
         StringBuilder str = new StringBuilder("[");
         if (head != null) str.append("NULL <--> ");
