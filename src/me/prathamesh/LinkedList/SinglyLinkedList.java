@@ -139,7 +139,7 @@ public class SinglyLinkedList<T> implements Serializable{
      * Removes and return element at specified index.
      *
      * @param index index of the element to be removed
-     * @return node at specified index in this list
+     * @return element at specified index in this list
      *
      * @throws IndexOutOfBoundsException if specified index is not valid
      * @throws NoSuchElementException if the list is empty
@@ -171,8 +171,11 @@ public class SinglyLinkedList<T> implements Serializable{
      */
     public boolean delete(Object o) {
         if (o == null) throw new NullPointerException("object cannot be null");
+        if (o.equals(head.data)) {
+            deleteFirst();
+            return true;
+        }
         else {
-            if (o.equals(head.data)) deleteFirst();
             Node<T> prev = head;
             while (prev.next != null) {
                 if (o.equals(prev.next.data)) {

@@ -1,5 +1,7 @@
 package me.prathamesh.LinkedList;
 
+import java.util.NoSuchElementException;
+
 public class DoublyLinkedList<T> {
     private int size;
 
@@ -119,7 +121,162 @@ public class DoublyLinkedList<T> {
             prev.next = newNode;
             newNode.next = current;
             current.prev = newNode;
+            size++;
         }
+    }
+
+    /**
+     * Removes and returns the head(first element) of this list.
+     *
+     * @return first element of this list
+     * @throws NoSuchElementException if the list empty
+     */
+    public T deleteFirst() {
+        if (isEmpty()) throw new NoSuchElementException("list is empty");
+        Node<T> temp = head;
+        if (head == tail) tail = null;
+        else head.next.prev = null;
+        head = head.next;
+        temp.next = null;
+        size--;
+        return temp.data;
+    }
+
+    /**
+     * Removes and returns the tail(last element) of this list.
+     *
+     * @return last element of this list
+     * @throws NoSuchElementException if the list is empty
+     */
+    public T deleteLast() {
+        if (isEmpty()) throw new NoSuchElementException("list is empty");
+        Node<T> temp = tail;
+        if (head == tail) head = null;
+        else tail.prev.next = null;
+        tail = tail.prev;
+        temp.prev = null;
+        size--;
+        return temp.data;
+    }
+
+    /**
+     * Removes and return the first element(head) of this list.
+     *
+     * @return head of this list
+     * @throws NoSuchElementException if the list is empty
+     */
+    public T delete() {
+        return deleteFirst();
+    }
+
+    /**
+     * Removes and return element at specified index.
+     *
+     * @param index index of the element to be removed
+     * @return element at specified index in this list
+     *
+     * @throws IndexOutOfBoundsException if specified index is not valid
+     * @throws NoSuchElementException if the list is empty
+     */
+    public T delete(int index) {
+        if (index < 0 || index > size()-1) throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
+        if (index == 0) return deleteFirst();
+        else if (index == size()-1) return deleteLast();
+        else {
+            Node<T> current = head;
+            int position = 0;
+            while (index > position) {
+                current = current.next;
+                position++;
+            }
+            current.prev.next = current.next;
+            current.next.prev = current.prev;
+            size--;
+            return current.data;
+        }
+    }
+
+    /**
+     * Removes the first occurrence of specified object from this list, if present.
+     * If the element is not present this list remains unchanged.
+     *
+     * @param o element required to be removed from this list
+     * @return true if the element is present in this list
+     * @throws NullPointerException if the specified object is null
+     */
+    public boolean delete(Object o) {
+        if (o == null) throw new NullPointerException("object cannot be null");
+        if (o.equals(head.data)) {
+            deleteFirst();
+            return true;
+        }
+        else {
+            Node<T> current = head;
+            while (current != null) {
+                if (o.equals(current.data)) {
+                    if (current.next == null) deleteLast();
+                    else {
+                        current.prev.next = current.next;
+                        current.next.prev = current.prev;
+                    }
+                    return true;
+                }
+                current = current.next;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Removes the first occurrence of specified object from this list, if present.
+     * If the element is not present this list remains unchanged.
+     *
+     * @param o element required to be removed from this list
+     * @return true if the element is present in this list
+     * @throws NullPointerException if the specified object is null
+     */
+    public boolean deleteFirstOccurrence(Object o) {
+        return delete(o);
+    }
+
+    /**
+     * Returns the first element(head) of this list.
+     *
+     * @return head(first element) of this list
+     * @throws NoSuchElementException if the list is empty
+     */
+    public T getFirst() {
+        if (isEmpty()) throw new NoSuchElementException("list is empty");
+        return head.data;
+    }
+
+    /**
+     * Returns the last element of this list.
+     *
+     * @return last element of this list
+     * @throws NoSuchElementException if the list is empty
+     */
+    public T getLast() {
+        if (isEmpty()) throw new NoSuchElementException("list is empty");
+        return tail.data;
+    }
+
+    /**
+     * Returns the element at the specified position in this list.
+     *
+     * @param index index of the element to return
+     * @return element at the specified index
+     * @throws IndexOutOfBoundsException if the index is out of range
+     */
+    public T get(int index) {
+        if (index < 0 || index > size-1) throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
+        Node<T> current = head;
+        int count = 0;
+        while (count < index) {
+            current = current.next;
+            count++;
+        }
+        return current.data;
     }
 
     /**
