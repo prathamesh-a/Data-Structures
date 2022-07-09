@@ -266,6 +266,7 @@ public class DoublyLinkedList<T> {
      *
      * @param index index of the element to return
      * @return element at the specified index
+     * 
      * @throws IndexOutOfBoundsException if the index is out of range
      */
     public T get(int index) {
